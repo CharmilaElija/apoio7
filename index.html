@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rede de Apoio Seguro - Moçambique</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--roxo-claro:#e8d5f2;--roxo:#7a4a9e;--rosa:#ffd6e8;--rosa-claro:#fff0f6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:var(--rosa-claro);color:#4a2c5a}
+.capa{width:100%;height:280px;background:linear-gradient(rgba(122,74,158,0.5),rgba(255,214,232,0.7)), url('IMG_9467.jpeg');background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;flex-direction:column;color:white;text-align:center}
+.capa h1{font-size:28px}.capa h2{font-size:12px;margin-top:10px;background:white;color:#7a4a9e;padding:8px 18px;border-radius:25px}
+.container{max-width:520px;margin:-20px auto 20px;padding:0 15px}
+.card{background:white;margin:14px 0;padding:18px;border-radius:18px;box-shadow:0 6px 20px rgba(122,74,158,0.1);border:1px solid #ffd6e8}
+.card h3{color:#7a4a9e;margin-bottom:8px;font-size:15px}
+.btn{border:none;padding:13px;border-radius:30px;width:100%;font-weight:600;cursor:pointer}
+.btn-roxo{background:linear-gradient(135deg,#b185c8,#7a4a9e);color:white}
+select,input{width:100%;padding:12px;margin:6px 0;border-radius:12px;border:1.5px solid #e8d5f2;font-family:'Poppins';background:#fefcff}
+.voluntaria-card{border:1px solid #e8d5f2;padding:12px;margin:8px 0;border-radius:12px;background:#fefcff}
+.caso-card{background:linear-gradient(135deg,#f3e5f5,#fff0f6);padding:12px;margin:8px 0;border-radius:12px;border-left:4px solid #7a4a9e;font-size:12px}
+footer{text-align:center;padding:15px;font-size:10px;color:#b185c8}
+</style>
+</head>
+<body>
+<div class="capa"><h1>🌸 Rede de Apoio Seguro</h1><h2>✨ Moçambique inteiro - Estás segura aqui ✨</h2></div>
+<div class="container">
+
+<!-- ONDE A VÍTIMA PEDE AJUDA -->
+<div class="card">
+<h3>💜 Precisas de apoio?</h3>
+<select id="provincia"><option>Nampula</option><option>Maputo Cidade</option><option>Maputo Província</option><option>Gaza</option><option>Inhambane</option><option>Sofala</option><option>Manica</option><option>Tete</option><option>Zambézia</option><option>Cabo Delgado</option><option>Niassa</option></select>
+<select id="tipo"><option>Violência Física</option><option>Violência Psicológica</option><option>Risco de Feminicídio</option><option>Depressão / Ansiedade</option><option>Apoio Jurídico</option><option>Abrigo</option></select>
+<input type="text" id="bairro" placeholder="Teu bairro ex: Muhaivire">
+<button class="btn btn-roxo" onclick="pedirAjuda()">💜 VER ANJOS PRÓXIMOS</button>
+</div>
+<div class="card" id="resultado" style="display:none"><div id="listaAjudantes"></div></div>
+
+<!-- LISTA DE ANJOS - EDITA AQUI -->
+<div class="card">
+<h3>💗 Nossos Anjos em Moçambique</h3>
+<div id="listaAnjos"></div>
+</div>
+
+<!-- CASOS JÁ ATENDIDOS - NOVO -->
+<div class="card" style="background:linear-gradient(135deg,#e8d5f2,#ffd6e8)">
+<h3>📊 Casos que já atendemos</h3>
+<div style="display:flex;gap:10px;text-align:center;margin:10px 0">
+<div style="flex:1;background:white;padding:10px;border-radius:12px"><b style="font-size:20px;color:#7a4a9e" id="totalCasos">47</b><br><small>mulheres apoiadas</small></div>
+<div style="flex:1;background:white;padding:10px;border-radius:12px"><b style="font-size:20px;color:#7a4a9e" id="totalAnjos">2</b><br><small>Anjos ativos</small></div>
+<div style="flex:1;background:white;padding:10px;border-radius:12px"><b style="font-size:20px;color:#7a4a9e">11</b><br><small>províncias</small></div>
+</div>
+<div id="listaCasos">
+<div class="caso-card">✅ <b>Muhaivire - Nampula:</b> Apoio jurídico e psicológico - 02/2026 - Anónimo</div>
+<div class="caso-card">✅ <b>Maputo:</b> Encaminhamento para abrigo seguro - 01/2026 - Anónimo</div>
+<div class="caso-card">✅ <b>Zambézia:</b> Acompanhamento hospitalar e esquadra - 01/2026 - Anónimo</div>
+</div>
+<small style="font-size:10px">* Nomes nunca são mostrados por segurança</small>
+</div>
+
+</div>
+<footer>Administradora Charmila Elija • 850730250 💜</footer>
+
+<script>
+// ===============================
+// EDITA AQUI - LISTA DE ANJOS - É SÓ COLAR NÚMERO NOVO
+// Quando tiver nova colaboradora, me manda o número que eu adiciono aqui
+let anjos = [
+{nome:"Charmila Elija - Administradora", prov:"Nampula", bairro:"Muhaivire", tel:"258850730250", skill:"Coordenação e Apoio Jurídico"},
+{nome:"Voluntária Muhaivire", prov:"Nampula", bairro:"Muhaivire", tel:"258850730250", skill:"Apoio Comunitário"}
+];
+// ===============================
+
+function mostrarAnjos(){
+let html="";
+anjos.forEach(a=>{
+html+=`<div class="voluntaria-card"><b>${a.nome}</b><br><small>📍 ${a.prov} - ${a.bairro} • ${a.skill}</small><br><small>📞 ${a.tel}</small></div>`;
+});
+document.getElementById('listaAnjos').innerHTML=html;
+document.getElementById('totalAnjos').innerText=anjos.length;
+}
+mostrarAnjos();
+
+function pedirAjuda(){
+let prov=document.getElementById('provincia').value;
+let tipo=document.getElementById('tipo').value;
+let bairro=document.getElementById('bairro').value;
+document.getElementById('resultado').style.display='block';
+let filtrados = anjos.filter(a=>a.prov===prov);
+if(filtrados.length===0) filtrados=anjos;
+let html=`<h3>Anjos em ${prov} - ${bairro}</h3>`;
+filtrados.forEach(a=>{
+html+=`<div class="voluntaria-card"><b>${a.nome}</b> - ${a.prov}<br><small>${a.bairro} • ${a.skill}</small><br><a href="https://wa.me/${a.tel}?text=Olá%20preciso%20de%20${tipo}%20em%20${prov}" style="background:#7a4a9e;color:white;padding:8px 14px;border-radius:20px;text-decoration:none;display:inline-block;margin-top:6px;font-size:12px">💬 WhatsApp</a></div>`;
+});
+document.getElementById('listaAjudantes').innerHTML=html;
+}
+</script>
+</body>
+</html>
